@@ -294,6 +294,20 @@ label.l{display:block;font-size:12px;letter-spacing:.08em;text-transform:upperca
 [data-style="pop"] .look{border:2.5px solid var(--ol);box-shadow:0 3px 0 var(--ol)}
 [data-style="pop"] .look[aria-pressed="true"]{background:#ffd23f;color:#1b1030;box-shadow:0 3px 0 var(--ol);border-color:var(--ol)}
 [data-style="pop"] .look[aria-pressed="true"] span{color:#1b1030}
+.clocks{position:absolute;right:14px;top:14px;z-index:3;display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.clk{display:flex;align-items:baseline;justify-content:space-between;gap:10px;background:rgba(0,0,0,.3);color:var(--ai-ink);border-radius:10px;padding:4px 10px;font-variant-numeric:tabular-nums;min-width:96px}
+.clk .cl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.clk b{font-family:var(--f-disp);font-size:16px;font-weight:700;letter-spacing:.02em}
+.clk i{font-style:normal;font-size:10px;margin-left:3px;opacity:.9}
+[data-style="washi"] .hl{max-width:calc(100% - 112px)}
+[data-style="pop"] .clk{background:var(--card);color:var(--ink);border:2.5px solid var(--ol);box-shadow:0 3px 0 var(--ol);border-radius:12px}
+[data-style="pop"] .clk .cl{color:var(--ink2);font-weight:800;opacity:1}
+[data-style="pop"] .clk b{font-size:18px}
+[data-style="pop"] .clk:nth-child(1){transform:rotate(2deg)}
+[data-style="pop"] .clk:nth-child(2){transform:rotate(-2deg)}
+[data-style="pop"] .sun{right:6px;top:4px;width:84px;height:84px}
+[data-style="pop"] .toons .cloud{right:118px;top:84px;width:56px}
+[data-style="pop"] .toons .sp1{right:92px;top:132px}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -303,6 +317,10 @@ label.l{display:block;font-size:12px;letter-spacing:.08em;text-transform:upperca
 <script>try{var _s=JSON.parse(localStorage.getItem('nihon-tabi-2026')||'{}');document.documentElement.setAttribute('data-style',(_s.sv===2&&_s.style==='washi')?'washi':'pop')}catch(e){document.documentElement.setAttribute('data-style','pop')}</script>
 <header class="hero">
   <div class="sun" aria-hidden="true"></div>
+  <div class="clocks" role="group" aria-label="Current time">
+    <div class="clk"><span class="cl">Saudi</span><b id="clkS" aria-label="Saudi Arabia time">--:--</b></div>
+    <div class="clk"><span class="cl">Tokyo</span><b id="clkT" aria-label="Tokyo time">--:--</b></div>
+  </div>
   <div class="toons" aria-hidden="true"><svg class="fuji" viewBox="0 0 120 70" aria-hidden="true"><path d="M0 70L44 12h32l44 58z" fill="#5b7cff" stroke="#1b1030" stroke-width="3" stroke-linejoin="round"/><path d="M44 12h32l8 11-9-4-7 8-7-8-7 8-7-8-9 4z" fill="#fff" stroke="#1b1030" stroke-width="2.5" stroke-linejoin="round"/></svg><svg class="cloud" viewBox="0 0 80 52" aria-hidden="true"><path d="M18 46a14 14 0 0 1-1-28 18 18 0 0 1 34-4 14 14 0 0 1 14 15 12 12 0 0 1-3 17z" fill="#fff" stroke="#1b1030" stroke-width="3" stroke-linejoin="round"/><circle cx="31" cy="33" r="2.6" fill="#1b1030"/><circle cx="47" cy="33" r="2.6" fill="#1b1030"/><path d="M35 38q4 4.5 8 0" fill="none" stroke="#1b1030" stroke-width="2.4" stroke-linecap="round"/><circle cx="26" cy="38" r="3" fill="#ff9ac6"/><circle cx="52" cy="38" r="3" fill="#ff9ac6"/></svg><svg class="cloud2" viewBox="0 0 80 52" aria-hidden="true"><path d="M18 46a14 14 0 0 1-1-28 18 18 0 0 1 34-4 14 14 0 0 1 14 15 12 12 0 0 1-3 17z" fill="#fff" stroke="#1b1030" stroke-width="3" stroke-linejoin="round"/><circle cx="31" cy="33" r="2.6" fill="#1b1030"/><circle cx="47" cy="33" r="2.6" fill="#1b1030"/><path d="M35 38q4 4.5 8 0" fill="none" stroke="#1b1030" stroke-width="2.4" stroke-linecap="round"/><circle cx="26" cy="38" r="3" fill="#ff9ac6"/><circle cx="52" cy="38" r="3" fill="#ff9ac6"/></svg><svg class="sp1" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0L12.5 7.5 20 10 12.5 12.5 10 20 7.5 12.5 0 10 7.5 7.5z" fill="#ffd23f" stroke="#1b1030" stroke-width="1.5" stroke-linejoin="round"/></svg><svg class="sp2" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0L12.5 7.5 20 10 12.5 12.5 10 20 7.5 12.5 0 10 7.5 7.5z" fill="#ffd23f" stroke="#1b1030" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
   <div class="wrap">
     <div class="hl">
@@ -2058,6 +2076,16 @@ function openAddSheet(n){
   setTimeout(()=>tx.focus(),50);
 }
 
+
+function tickClocks(){
+  const now=new Date();
+  const f=tz=>new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+  const d=tz=>new Intl.DateTimeFormat('en-CA',{timeZone:tz}).format(now);
+  const s=$('#clkS'),t=$('#clkT');
+  if(s)s.textContent=f('Asia/Riyadh');
+  if(t){t.textContent=f('Asia/Tokyo');t.setAttribute('aria-label','Tokyo time');if(d('Asia/Tokyo')>d('Asia/Riyadh')){t.append(el('i',{text:'+1'}))}}
+}
+tickClocks();setInterval(tickClocks,20000);
 render();
 (async()=>{const c=DAYS.find(x=>x.n===cur).c;await loadLive(c);render(true);for(const k of Object.keys(CITY)){if(k!==c){await loadLive(k)}}render(true)})();
 </script>
