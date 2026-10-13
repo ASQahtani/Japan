@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" href="apple-touch-icon.png">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Hwida and Abdulrahman in Japan</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&family=Zen+Maru+Gothic:wght@500;700&family=Jost:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,400;1,500&display=swap">
 <style>
 /* Layout: phone-first washi-paper itinerary. Indigo seigaiha header, day ribbon, ledger-style task rows with vermilion hanko stamps, bottom tab bar. */
 :root{
@@ -330,15 +330,138 @@ label.l{display:block;font-size:12px;letter-spacing:.08em;text-transform:upperca
 [data-style="pop"] .sun{right:6px;top:4px;width:84px;height:84px}
 [data-style="pop"] .toons .cloud{right:118px;top:84px;width:56px}
 [data-style="pop"] .toons .sp1{right:92px;top:132px}
+
+/* ===== Gallery style: editorial poster, cream paper, red sun, colour blocks ===== */
+.ed,.ed-vert,.ed-mark,.ed-blocks,.partno{display:none}
+:root[data-style="edit"]{
+  --paper:#f7f3ea; --card:#fffdf8; --ink:#151515; --ink2:#6b6760; --line:#ddd6c7; --ol:#151515;
+  --ai:#151515; --ai-ink:#fffdf8; --shu:#e1251b; --shu-soft:#fbe3df;
+  --sakura:#2e6fd8; --sakura-soft:#e6eefb; --asagi:#1f9e46; --asagi-soft:#e3f2e7;
+  --rain:#2e6fd8; --rain-soft:#e6eefb; --blk-y:#f2b33d;
+  --f-disp:'Jost','Futura','Avenir Next',system-ui,sans-serif;
+  --f-body:'Jost','Avenir Next','Hiragino Sans',system-ui,sans-serif;
+  --f-serif:'Playfair Display','Shippori Mincho',Georgia,serif}
+@media (prefers-color-scheme: dark){:root[data-style="edit"]:not([data-theme="light"]){
+  --paper:#141414; --card:#1c1c1b; --ink:#f1ece1; --ink2:#a7a196; --line:#35332f; --ol:#f1ece1;
+  --ai:#f1ece1; --ai-ink:#141414; --shu:#ff4a3d; --shu-soft:#3a1a17;
+  --sakura:#5b8ff0; --sakura-soft:#1a2438; --asagi:#3cc46a; --asagi-soft:#15291b;
+  --rain:#8db3ff; --rain-soft:#1b2840; color-scheme:dark}}
+:root[data-style="edit"][data-theme="dark"]{
+  --paper:#141414; --card:#1c1c1b; --ink:#f1ece1; --ink2:#a7a196; --line:#35332f; --ol:#f1ece1;
+  --ai:#f1ece1; --ai-ink:#141414; --shu:#ff4a3d; --shu-soft:#3a1a17;
+  --sakura:#5b8ff0; --sakura-soft:#1a2438; --asagi:#3cc46a; --asagi-soft:#15291b;
+  --rain:#8db3ff; --rain-soft:#1b2840; color-scheme:dark}
+[data-style="edit"] body{font-size:15.5px;letter-spacing:.005em}
+[data-style="edit"] .hero{background:var(--paper);color:var(--ink);border-bottom:1px solid var(--ol);min-height:236px}
+[data-style="edit"] .hero .wrap{display:block;padding-block:84px 22px}
+[data-style="edit"] .hl{max-width:none}
+[data-style="edit"] .hero h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[data-style="edit"] .bubble,[data-style="edit"] .toons{display:none}
+[data-style="edit"] .sun{right:-66px;top:40px;width:190px;height:190px;opacity:1;background:var(--shu);border:0}
+[data-style="edit"] .ed{display:block;position:relative;z-index:2}
+[data-style="edit"] .ed-kick{display:block;font-family:var(--f-disp);font-weight:600;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--shu);margin-bottom:6px}
+[data-style="edit"] .ed-big{display:block;font-family:var(--f-disp);font-weight:700;font-size:50px;line-height:.92;letter-spacing:-.025em;color:var(--ink)}
+[data-style="edit"] .ed-big i{font-style:normal;color:var(--shu)}
+[data-style="edit"] .hero .sub{font-family:var(--f-serif);font-style:italic;font-size:15px;letter-spacing:0;text-transform:none;opacity:1;color:var(--ink2);margin-top:10px}
+[data-style="edit"] .ed-vert{display:block;position:absolute;right:12px;top:70px;z-index:2;writing-mode:vertical-rl;font-family:'Zen Kaku Gothic New',var(--f-body);font-weight:500;font-size:12px;letter-spacing:.5em;color:#fff}
+[data-style="edit"] .ed-mark{display:block;position:absolute;right:170px;top:58px;font-family:'Shippori Mincho',serif;font-size:15px;color:var(--ink2);z-index:2}
+[data-style="edit"] .ed-mark b{position:absolute;left:12px;top:18px;width:26px;height:1px;background:var(--ink2);transform:rotate(-40deg);transform-origin:left}
+[data-style="edit"] .ed-blocks{display:flex;gap:6px;position:absolute;right:16px;bottom:14px;z-index:2}
+[data-style="edit"] .ed-blocks i{display:block;height:10px;width:10px;background:var(--blk-y,#f2b33d)}
+[data-style="edit"] .ed-blocks i:nth-child(1){width:34px;background:var(--sakura)}
+[data-style="edit"] .ed-blocks i:nth-child(2){width:16px;background:var(--asagi)}
+[data-style="edit"] .ed-blocks i:nth-child(3){background:#f2b33d}
+[data-style="edit"] .clocks{left:16px;right:auto;top:16px;flex-direction:row;gap:0}
+[data-style="edit"] .clk{background:transparent;color:var(--ink);border:1px solid var(--ol);border-radius:0;min-width:0;padding:5px 11px 4px;gap:8px}
+[data-style="edit"] .clk+.clk{border-left:0}
+[data-style="edit"] .clk .cl{font-family:var(--f-serif);font-style:italic;text-transform:lowercase;letter-spacing:0;font-size:13px;color:var(--ink2);opacity:1}
+[data-style="edit"] .clk b{font-family:var(--f-disp);font-weight:600;font-size:17px}
+[data-style="edit"] .ctl{margin-top:16px}
+[data-style="edit"] .theme{background:transparent;color:var(--ink);border:1px solid var(--ol);border-radius:0;font-family:var(--f-disp);font-weight:500;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:6px 11px}
+[data-style="edit"] .theme:active{background:var(--ink);color:var(--paper)}
+[data-style="edit"] .ribbon{background:var(--paper);border-bottom:1px solid var(--ol)}
+[data-style="edit"] .chip{border-radius:0;border:1px solid var(--line);background:var(--card)}
+[data-style="edit"] .chip .dn{font-family:var(--f-disp);font-weight:600;font-size:21px}
+[data-style="edit"] .chip .dw{font-weight:500;letter-spacing:.14em}
+[data-style="edit"] .chip .bar{height:2px;border-radius:0;margin-inline:8px}
+[data-style="edit"] .chip[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+[data-style="edit"] .chip[aria-current="true"] .dw,[data-style="edit"] .chip[aria-current="true"] .ck{color:var(--paper);opacity:.75}
+[data-style="edit"] .chip[aria-current="true"] .bar{background:color-mix(in srgb,var(--paper) 30%,transparent)}
+[data-style="edit"] .chip.today::after{border-radius:0;width:7px;height:7px;top:4px;right:4px;background:var(--shu)}
+[data-style="edit"] .dayhead{flex-wrap:wrap;align-items:flex-end;gap:4px 14px;padding-top:22px}
+[data-style="edit"] .partno{display:flex;align-items:baseline;gap:3px;font-family:var(--f-disp);font-weight:700;font-size:64px;line-height:.78;letter-spacing:-.04em;color:var(--ink)}
+[data-style="edit"] .partno small{font-size:16px;font-weight:600;letter-spacing:0}
+[data-style="edit"] .dayhead .cityk{order:2;margin-left:auto;align-self:flex-start;font-family:'Zen Kaku Gothic New',var(--f-body);font-weight:500;font-size:13px;letter-spacing:.45em;color:var(--shu);border-left:0;padding:0}
+[data-style="edit"] .dayhead .meta{order:3;flex:1 0 100%}
+[data-style="edit"] .eyebrow{font-family:var(--f-serif);font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink2)}
+[data-style="edit"] .dayhead h2{font-family:var(--f-disp);font-weight:600;font-size:24px;letter-spacing:-.01em;line-height:1.15}
+[data-style="edit"] .wx{border-radius:0;border:1px solid var(--ol);background:var(--card)}
+[data-style="edit"] .wxt{font-weight:700;font-size:30px;letter-spacing:-.02em}
+[data-style="edit"] .pop b{color:var(--shu)}
+[data-style="edit"] .wet{border-radius:0}
+[data-style="edit"] .list{gap:0}
+[data-style="edit"] .item{border-radius:0;border-bottom:1px solid var(--line);padding:12px 8px 12px 10px}
+[data-style="edit"] .item.k-n{border-bottom:1px solid var(--line)}
+[data-style="edit"] .item.k-o{background:transparent;box-shadow:inset 4px 0 0 var(--sakura)}
+[data-style="edit"] .item.k-s{background:transparent;box-shadow:inset 4px 0 0 var(--asagi)}
+[data-style="edit"] .item.sub{margin-left:22px}
+[data-style="edit"] .stamp{border-radius:0;width:24px;height:24px;border:1.5px solid var(--ink);margin-top:2px;font-size:13px}
+[data-style="edit"] .item.done .stamp{background:var(--shu);border-color:var(--shu);color:#fff;transform:none}
+[data-style="edit"] .item.done .txt{text-decoration-color:var(--shu)}
+[data-style="edit"] .tag{border-radius:0;font-family:var(--f-disp);font-weight:600;letter-spacing:.14em;padding:1px 7px}
+[data-style="edit"] .tag.o{background:var(--sakura);color:#fff}
+[data-style="edit"] .tag.s{background:var(--asagi);color:#fff}
+[data-style="edit"] .tag.b{background:#f2b33d;color:#151515}
+[data-style="edit"] .tag.m{background:transparent;border:1px solid var(--line);color:var(--ink2)}
+[data-style="edit"] .map,:root[data-style="edit"][data-theme="dark"] .map{color:var(--shu);border-bottom:1px solid currentColor;font-weight:500}
+@media (prefers-color-scheme: dark){:root[data-style="edit"]:not([data-theme="light"]) .map{color:var(--shu)}}
+[data-style="edit"] .note{border:0;border-left:3px solid #f2b33d;border-radius:0;background:var(--card)}
+[data-style="edit"] .more{border-radius:0}
+[data-style="edit"] .addbtn{border-radius:0;border:1px solid var(--ol);background:transparent;font-family:var(--f-disp);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+[data-style="edit"] .addbtn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+[data-style="edit"] .legend i{border-radius:0}
+[data-style="edit"] .sec{font-family:var(--f-disp);font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+[data-style="edit"] .sec::before{content:"";width:10px;height:10px;background:var(--shu);flex:0 0 auto}
+[data-style="edit"] .sec::after{background:var(--ol)}
+[data-style="edit"] .drow,[data-style="edit"] .panel{border-radius:0;border:1px solid var(--line)}
+[data-style="edit"] .drow .dn{font-weight:700;font-size:28px;letter-spacing:-.03em}
+[data-style="edit"] .drow .ck{color:var(--shu)}
+[data-style="edit"] .panel h3{font-family:var(--f-disp);font-weight:600;font-size:13px;letter-spacing:.24em;text-transform:uppercase}
+[data-style="edit"] .big{font-family:var(--f-disp);font-weight:700;font-size:64px;letter-spacing:-.04em;color:var(--ink)}
+[data-style="edit"] .btn{border-radius:0;border:1px solid var(--ol);font-family:var(--f-disp);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+[data-style="edit"] .btn.pri{background:var(--shu);border-color:var(--shu);color:#fff}
+[data-style="edit"] .tabs{background:var(--paper);border-top:1px solid var(--ol)}
+[data-style="edit"] .tabs button{position:relative;font-family:var(--f-disp);font-weight:500;letter-spacing:.16em}
+[data-style="edit"] .tabs button[aria-selected="true"]{color:var(--ink)}
+[data-style="edit"] .tabs button[aria-selected="true"] b{color:var(--shu)}
+[data-style="edit"] .tabs button[aria-selected="true"]::before{content:"";position:absolute;top:-1px;left:50%;width:24px;height:3px;margin-left:-12px;background:var(--shu)}
+[data-style="edit"] .sheet{border-radius:0;border:1px solid var(--ol);border-bottom:0}
+[data-style="edit"] .sheet h3{font-family:var(--f-disp);font-weight:600}
+[data-style="edit"] textarea,[data-style="edit"] input[type=text],[data-style="edit"] select{border-radius:0;border:1px solid var(--ol);background:var(--card)}
+[data-style="edit"] .movegrid button{border-radius:0}
+[data-style="edit"] .movegrid button.cur{background:var(--ink);border-color:var(--ink)}
+[data-style="edit"] .movegrid button.cur,[data-style="edit"] .movegrid button.cur b{color:var(--paper)}
+[data-style="edit"] .look{border-radius:0;border:1px solid var(--line)}
+[data-style="edit"] .look[aria-pressed="true"]{border-color:var(--shu);box-shadow:inset 0 0 0 1px var(--shu)}
+[data-style="edit"] .dots i{border-radius:0}
+[data-style="edit"] .seg{border-radius:0;border:1px solid var(--ol)}
+[data-style="edit"] .seg button{font-family:var(--f-disp);font-weight:500;letter-spacing:.06em}
+[data-style="edit"] .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+[data-style="edit"] .prow{border-radius:0;border:0;border-bottom:1px solid var(--line);background:transparent;margin-bottom:0;padding-inline:4px}
+[data-style="edit"] .dchip{border-radius:0;border:1px solid var(--ol);background:transparent;color:var(--ink);font-family:var(--f-disp);font-weight:500}
+@media (max-width:360px){[data-style="edit"] .ed-big{font-size:42px}[data-style="edit"] .ed-mark{display:none}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
 
-<script>try{var _s=JSON.parse(localStorage.getItem('nihon-tabi-2026')||'{}');document.documentElement.setAttribute('data-style',(_s.sv===2&&_s.style==='washi')?'washi':'pop')}catch(e){document.documentElement.setAttribute('data-style','pop')}</script>
+<script>try{var _s=JSON.parse(localStorage.getItem('nihon-tabi-2026')||'{}');document.documentElement.setAttribute('data-style',(_s.sv>=2&&(_s.style==='washi'||_s.style==='edit'))?_s.style:'pop')}catch(e){document.documentElement.setAttribute('data-style','pop')}</script>
 <header class="hero">
   <div class="sun" aria-hidden="true"></div>
+  <div class="ed-vert" aria-hidden="true">ニッポン · 日本</div>
+  <div class="ed-mark" aria-hidden="true">旅<b></b></div>
+  <div class="ed-blocks" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="clocks" role="group" aria-label="Current time">
     <div class="clk"><span class="cl">Saudi</span><b id="clkS" aria-label="Saudi Arabia time">--:--</b></div>
     <div class="clk"><span class="cl">Tokyo</span><b id="clkT" aria-label="Tokyo time">--:--</b></div>
@@ -348,6 +471,7 @@ label.l{display:block;font-size:12px;letter-spacing:.08em;text-transform:upperca
     <div class="hl">
       <div class="bubble" aria-hidden="true">旅行だ！</div>
       <h1 id="title">Hwida and Abdulrahman in Japan</h1>
+      <div class="ed" aria-hidden="true"><span class="ed-kick">Hwida &amp; Abdulrahman</span><span class="ed-big">in Japan<i>.</i></span></div>
       <div class="sub">13 to 31 October 2026</div>
       <div class="ctl">
         <button class="theme" id="styleBtn" type="button" aria-label="Change look">Look</button>
@@ -401,10 +525,11 @@ const WET_CODE = c => (c>=51&&c<=67)||(c>=80&&c<=82)||c>=95;
 const KEY='nihon-tabi-2026';
 let S={done:{},skip:{},notes:{},moved:{},added:[],theme:'auto',style:'pop'};
 try{const r=localStorage.getItem(KEY); if(r){const p=JSON.parse(r); S=Object.assign(S,p)}}catch(e){}
+function STY(){return S.style==='washi'||S.style==='edit'?S.style:'pop'}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 if(!S.sv||S.sv<2){S.style='pop';S.sv=2;save()}
 if(S.sv<3){const M=MIG,re=o=>{const r={};for(const k in o){const nk=k.startsWith('a')?k:M[k];if(nk)r[nk]=o[k]}return r};S.done=re(S.done);S.skip=re(S.skip);S.notes=re(S.notes);S.moved=re(S.moved);S.sv=3;save()}
-document.documentElement.setAttribute('data-style',S.style==='washi'?'washi':'pop');
+document.documentElement.setAttribute('data-style',STY());
 
 /* helpers */
 const $=(s,r=document)=>r.querySelector(s);
@@ -430,9 +555,9 @@ const todayIso=tokyoToday();
 /* theme */
 function applyTheme(){const r=document.documentElement;if(S.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',S.theme);$('#themeBtn').textContent='Mode: '+{auto:'Auto',light:'Light',dark:'Dark'}[S.theme]}
 $('#themeBtn').addEventListener('click',()=>{S.theme={auto:'light',light:'dark',dark:'auto'}[S.theme]||'auto';save();applyTheme()});
-const STYLES={pop:'Pop',washi:'Washi'};
-function applyStyle(){document.documentElement.setAttribute('data-style',S.style==='washi'?'washi':'pop');$('#styleBtn').textContent='Look: '+STYLES[S.style==='washi'?'washi':'pop']}
-$('#styleBtn').addEventListener('click',()=>{S.style=S.style==='washi'?'pop':'washi';save();applyStyle();render(true)});
+const STYLES={pop:'Pop',washi:'Washi',edit:'Gallery'};
+function applyStyle(){document.documentElement.setAttribute('data-style',STY());$('#styleBtn').textContent='Look: '+STYLES[STY()]}
+$('#styleBtn').addEventListener('click',()=>{S.style=({pop:'washi',washi:'edit',edit:'pop'})[STY()];save();applyStyle();render(true)});
 (function(){const h=$('#title');const txt=h.textContent;h.setAttribute('aria-label',txt);h.replaceChildren();let i=0;for(const ch of txt){if(ch===' '){h.append(' ');continue}h.append(el('span',{class:'c c'+(i%5),'aria-hidden':'true',text:ch}));i++}})();
 applyTheme();applyStyle();
 
@@ -548,6 +673,7 @@ function renderDay(){
   const d=DAYS.find(x=>x.n===cur);const m=$('#view');m.replaceChildren();
   const iso=d.iso;
   m.append(el('div',{class:'dayhead'},
+    el('div',{class:'partno','aria-hidden':'true'},el('small',{text:'Day.'}),String(d.n).padStart(2,'0')),
     el('div',{class:'cityk',text:CITY[d.c].k,'aria-hidden':'true'}),
     el('div',{class:'meta'},el('div',{class:'eyebrow',text:`Day ${d.n} · ${d.dow} ${d.date} October${iso===todayIso?' · Today':''}`}),
       el('h2',{text:d.title}),el('div',{class:'night',text:NIGHT(d.n)}))));
@@ -636,10 +762,11 @@ function renderTrip(){
   const wrap=el('div',{style:'padding-block:18px'});
   const quip=pct===0?'Suitcases packed. Adventure not started.':pct<25?'Warming up. Snacks acquired.':pct<50?'Getting good. The feet are talking.':pct<75?'Over halfway. The souvenir bags are heavy.':pct<100?'Nearly there. Do not lose the tickets.':'Everything done. Time for ramen.';
   wrap.append(el('div',{class:'panel'},el('h3',{text:'Progress'}),el('div',{class:'big',text:pct+'%'}),el('div',{class:'hint',text:`${dn} of ${tot} planned and optional items done. Ideas and skipped items are not counted.`+(S.style==='washi'?'':' '+quip)})));
-  const mk=(id,name,desc,cols)=>el('button',{class:'look',type:'button','aria-pressed':String((S.style==='washi'?'washi':'pop')===id),onclick:()=>{S.style=id;save();applyStyle();render(true)}},el('b',{text:name}),el('span',{text:desc}),el('div',{class:'dots'},...cols.map(c=>el('i',{style:'background:'+c}))));
+  const mk=(id,name,desc,cols)=>el('button',{class:'look',type:'button','aria-pressed':String(STY()===id),onclick:()=>{S.style=id;save();applyStyle();render(true)}},el('b',{text:name}),el('span',{text:desc}),el('div',{class:'dots'},...cols.map(c=>el('i',{style:'background:'+c}))));
   wrap.append(el('div',{class:'panel'},el('h3',{text:'Look'}),el('div',{class:'looks'},
     mk('pop','Pop','Bright, bold and cartoony',['#ff3b5c','#ffd23f','#37b8ff','#0aa88a','#ff3d9a']),
-    mk('washi','Washi','Calm paper and indigo',['#c63d2b','#22395f','#eee9de','#c8456b','#18807c'])),
+    mk('washi','Washi','Calm paper and indigo',['#c63d2b','#22395f','#eee9de','#c8456b','#18807c']),
+    mk('edit','Gallery','Editorial poster with a red sun',['#e1251b','#151515','#f7f3ea','#2e6fd8','#23a94a'])),
     el('div',{class:'hint',text:'Light or dark is the Mode button at the top.'})));
   wrap.append(el('div',{class:'panel'},el('h3',{text:'Flights'}),
     el('dl',{class:'kv'},el('dt',{text:'QR808'}),el('dd',{text:'Arrive Narita T2, Tue 13 Oct, 20:00'}),el('dt',{text:'QR809'}),el('dd',{text:'Depart Narita T2, Sat 31 Oct, 16:55'}))));
