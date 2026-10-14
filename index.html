@@ -180,6 +180,19 @@ label.l{display:block;font-size:12px;letter-spacing:.08em;text-transform:upperca
 
 select.ptype{font-size:14.5px}
 .looks+label.l{margin-top:14px}
+.listbar{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.rbtn{font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:5px 14px;color:var(--ink2);background:var(--card)}
+.rbtn.on{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
+.rbtn.ghost{border-style:dashed}
+.arrows{display:flex;flex-direction:column;gap:4px;flex:0 0 auto}
+.arw{width:34px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:16px;line-height:1}
+.arw[disabled]{opacity:.3}
+[data-style="pop"] .rbtn,[data-style="pop"] .arw{border:2.5px solid var(--ol);font-weight:800;color:var(--ink);box-shadow:0 2px 0 var(--ol)}
+[data-style="pop"] .rbtn.on{background:var(--shu);color:#fff}
+[data-style="pop"] .arw{border-radius:10px}
+[data-style="edit"] .rbtn,[data-style="edit"] .arw{border-radius:0;border:1px solid var(--ol);font-family:var(--f-disp);color:var(--ink)}
+[data-style="edit"] .rbtn{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;background:transparent}
+[data-style="edit"] .rbtn.on{background:var(--ink);color:var(--paper)}
 /* tab bar */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tabs div{display:flex;max-width:560px;margin-inline:auto}
@@ -544,8 +557,16 @@ function dayItems(n){
   for(const it of d?d.items:[]){ }
   for(const dd of DAYS)for(const it of dd.items){const t=S.moved[it.id]!=null?S.moved[it.id]:dd.n; if(t===n)out.push(Object.assign({orig:dd.n},it))}
   for(const a of S.added){const t=S.moved[a.id]!=null?S.moved[a.id]:a.day; if(t===n)out.push(Object.assign({orig:a.day,mine:1},a))}
-  return out;
+  const ord=(S.order||{})[n];
+  if(!ord||!ord.length)return out;
+  const byId=new Map(out.map(i=>[i.id,i]));
+  const res=ord.filter(id=>byId.has(id)).map(id=>byId.get(id));
+  const inRes=new Set(res.map(i=>i.id));
+  out.forEach((it,k)=>{if(inRes.has(it.id))return;let pos=0;for(let j=k-1;j>=0;j--){const q=res.findIndex(x=>x.id===out[j].id);if(q>=0){pos=q+1;break}}res.splice(pos,0,it);inRes.add(it.id)});
+  return res;
 }
+function moveInDay(n,id,dir){const ids=dayItems(n).map(i=>i.id);const k=ids.indexOf(id),j=k+dir;if(k<0||j<0||j>=ids.length)return;[ids[k],ids[j]]=[ids[j],ids[k]];S.order=S.order||{};S.order[n]=ids;save();render(true)}
+let reorder=false;
 function findItem(id){for(const dd of DAYS)for(const it of dd.items)if(it.id===id)return Object.assign({orig:dd.n},it);const a=S.added.find(x=>x.id===id);return a?Object.assign({orig:a.day,mine:1},a):null}
 function progress(n){const its=dayItems(n).filter(i=>i.k!=='s'&&!S.skip[i.id]);const dn=its.filter(i=>S.done[i.id]).length;return{done:dn,total:its.length}}
 
@@ -607,7 +628,7 @@ function renderStrip(){
   for(const d of DAYS){
     const p=progress(d.n);
     const b=el('button',{class:'chip'+(d.iso===todayIso?' today':''),type:'button',role:'tab','aria-current':String(d.n===cur),'aria-label':`Day ${d.n}, ${d.dow} ${d.date} October`,
-      onclick:()=>{cur=d.n;tab='day';render()}},
+      onclick:()=>{cur=d.n;tab='day';reorder=false;render()}},
       el('span',{class:'dw',text:d.dow}),el('span',{class:'dn',text:String(d.date)}),el('span',{class:'ck',text:CITY[d.c].k}),
       el('span',{class:'bar'},el('i',{style:`width:${p.total?Math.round(100*p.done/p.total):0}%`})));
     st.append(b);
@@ -637,7 +658,10 @@ function renderItem(it){
   if(S.notes[it.id])body.append(el('div',{class:'note',text:S.notes[it.id]}));
   const stamp=el('button',{class:'stamp',type:'button','aria-label':done?'Mark not done':'Mark done','aria-pressed':String(done),text:'済',
     onclick:()=>{if(S.done[it.id])delete S.done[it.id];else{S.done[it.id]=1;delete S.skip[it.id]}save();render(true)}});
-  const more=el('button',{class:'more',type:'button','aria-label':'Item options',text:'⋯',onclick:()=>openItemSheet(it.id)});
+  const more=reorder?el('div',{class:'arrows'},
+      el('button',{class:'arw',type:'button','aria-label':'Move up',text:'↑',disabled:it.first?'':false,onclick:()=>moveInDay(cur,it.id,-1)}),
+      el('button',{class:'arw',type:'button','aria-label':'Move down',text:'↓',disabled:it.last?'':false,onclick:()=>moveInDay(cur,it.id,1)}))
+    :el('button',{class:'more',type:'button','aria-label':'Item options',text:'⋯',onclick:()=>openItemSheet(it.id)});
   return el('div',{class:`item k-${it.k}${it.sub?' sub':''}${done?' done':''}${skip?' skip':''}`},stamp,body,more);
 }
 function renderWeather(d){
@@ -683,7 +707,10 @@ function renderDay(){
   const its=dayItems(d.n);
   const list=el('div',{class:'list'});
   if(!its.length)list.append(el('div',{class:'empty',text:S.style==='washi'?'Nothing planned. Add a place below or move an item here from another day.':'Nothing here yet. Add something fun below, or steal an item from another day.'}));
-  for(const it of its)list.append(renderItem(it));
+  if(its.length>1)m.append(el('div',{class:'listbar'},
+    reorder&&S.order&&S.order[d.n]?el('button',{class:'rbtn ghost',type:'button',text:'Reset order',onclick:()=>{delete S.order[d.n];save();render(true)}}):null,
+    el('button',{class:'rbtn'+(reorder?' on':''),type:'button','aria-pressed':String(reorder),text:reorder?'Done':'Reorder',onclick:()=>{reorder=!reorder;render(true)}})));
+  its.forEach((it,k)=>{it.first=k===0;it.last=k===its.length-1;list.append(renderItem(it))});
   m.append(list);
   const p=progress(d.n);
   m.append(el('div',{class:'legend'},
@@ -832,6 +859,8 @@ function openItemSheet(id){
   const it=findItem(id);if(!it)return;
   const acts=[];
   acts.push(el('button',{class:'act',type:'button',text:S.notes[id]?'Edit note':'Add a note',onclick:()=>openNoteSheet(id)}));
+  acts.push(el('button',{class:'act',type:'button',text:'Move up in this day',onclick:()=>{closeSheet();moveInDay(cur,id,-1)}}));
+  acts.push(el('button',{class:'act',type:'button',text:'Move down in this day',onclick:()=>{closeSheet();moveInDay(cur,id,1)}}));
   acts.push(el('button',{class:'act',type:'button',text:'Move to another day',onclick:()=>openMoveSheet(id)}));
   acts.push(el('button',{class:'act',type:'button',text:S.skip[id]?'Bring back (undo skip)':'Skip this item',onclick:()=>{if(S.skip[id])delete S.skip[id];else{S.skip[id]=1;delete S.done[id]}save();closeSheet();render(true)}}));
   if(it.mine)acts.push(el('button',{class:'act dng',type:'button',text:'Delete this addition',onclick:()=>{S.added=S.added.filter(a=>a.id!==id);delete S.done[id];delete S.skip[id];delete S.notes[id];delete S.moved[id];save();closeSheet();render(true)}}));
